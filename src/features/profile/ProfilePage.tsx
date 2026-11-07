@@ -1,1 +1,3 @@
-﻿export function ProfilePage() { return <h1 className="text-3xl font-bold text-navy-deep">Личный кабинет</h1> }
+﻿export function ProfilePage() {
+  return <h1 className="text-3xl font-bold text-navy-deep">Личный кабинет</h1>
+}

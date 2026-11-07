@@ -14,15 +14,13 @@ export function Layout() {
       <aside className="w-64 bg-navy text-white flex-shrink-0">
         <div className="p-5 font-bold text-xl">Е-Паслуга</div>
         <nav className="flex flex-col">
-          {navItems.map(item => (
+          {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={item.end}
               className={({ isActive }) =>
-                `px-5 py-3 text-sm hover:bg-white/10 ${
-                  isActive ? 'bg-white/15 font-semibold' : ''
-                }`
+                `px-5 py-3 text-sm hover:bg-white/10 ${isActive ? 'bg-white/15 font-semibold' : ''}`
               }
             >
               {item.label}

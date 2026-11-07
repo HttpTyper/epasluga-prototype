@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-navy: #2f3bbd;
@@ -14,7 +14,7 @@
   --color-accent: #0f766e;
   --color-accent-warm: #9a6700;
 
-  --font-sans: "Inter", "Segoe UI", "PT Sans", "Roboto", Arial, sans-serif;
+  --font-sans: 'Inter', 'Segoe UI', 'PT Sans', 'Roboto', Arial, sans-serif;
 
   --radius-card: 16px;
   --radius-control: 10px;
@@ -22,7 +22,9 @@
   --shadow-card: 0 10px 30px rgba(30, 42, 120, 0.07);
 }
 
-html, body, #root {
+html,
+body,
+#root {
   min-height: 100%;
 }
 
