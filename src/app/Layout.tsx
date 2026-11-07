@@ -11,7 +11,7 @@ const navItems = [
 export function Layout() {
   return (
     <div className="min-h-screen flex bg-bg">
-      <aside className="w-64 bg-navy text-white flex-shrink-0">
+      <aside className="w-64 bg-navy text-white shrink-0">
         <div className="p-5 font-bold text-xl">Е-Паслуга</div>
         <nav className="flex flex-col">
           {navItems.map((item) => (

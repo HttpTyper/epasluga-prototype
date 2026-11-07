@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef} from 'react'
 import type { ReactNode } from 'react'
 
 type TooltipProps = {
@@ -38,7 +38,7 @@ export function Tooltip({ text, children }: TooltipProps) {
       
       {isVisible && (
         <div
-          className="fixed z-50 bg-[#1c1c28] text-white text-xs px-2.5 py-1.5 rounded-md pointer-events-none max-w-[240px] -translate-x-1/2 -translate-y-full"
+          className="fixed z-50 bg-[#1c1c28] text-white text-xs px-2.5 py-1.5 rounded-md pointer-events-none max-w-60 -translate-x-1/2 -translate-y-full"
           style={{ top: coords.top, left: coords.left }}
         >
           {text}

@@ -1,13 +1,17 @@
-﻿import { useParams, Link } from 'react-router-dom'
+﻿import { useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
 import { mockServices } from '../../lib/api/mocks/fixtures/services'
 import { Button, Badge, Card } from '../../design-system'
 import { ru } from '../../content/ru'
+import { ApplicationForm } from './ApplicationForm'
 
 export function ServicePage() {
   const { id } = useParams()
   const service = mockServices.find(s => s.id === id)
+  const [isFormOpen, setIsFormOpen] = useState(false)
 
   if (!service) {
+      
     return (
       <div className="max-w-3xl mx-auto py-12 text-center">
         <h1 className="text-2xl font-bold text-navy-deep mb-4">Услуга не найдена</h1>
@@ -15,7 +19,9 @@ export function ServicePage() {
       </div>
     )
   }
-
+    if (isFormOpen) {
+            return <ApplicationForm service={service} />
+        }
   return (
     <div className="max-w-4xl mx-auto pb-12">
       {/* Хлебные крошки */}
@@ -30,7 +36,7 @@ export function ServicePage() {
           <h1 className="text-3xl font-bold text-navy-deep mb-2">{service.title}</h1>
           <p className="text-sm text-muted">{service.officialTitle}</p>
         </div>
-        <div className="flex gap-2 flex-shrink-0 mt-2">
+        <div className="flex gap-2 shrink-0 mt-2">
           {service.authLevel === 'id' && <Badge variant="need-id">Требуется ID-карта</Badge>}
           {service.authLevel === 'ecp' && <Badge variant="ecp">Требуется ЭЦП</Badge>}
           {service.authLevel === 'none' && <Badge variant="accent">Доступно без ID-карты</Badge>}
@@ -46,7 +52,7 @@ export function ServicePage() {
           </section>
 
           {/* Блок "Что вы получите" (п. #1 и #6 из аудита) */}
-          <section className="bg-[#f8f9ff] border border-[#e2e5f0] rounded-card p-6 shadow-sm">
+          <section className="bg-[#f8f9ff] border border-line rounded-card p-6 shadow-sm">
             <h2 className="text-lg font-bold text-navy-deep mb-5">{ru.service.resultTitle}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="flex flex-col gap-1">
@@ -72,7 +78,7 @@ export function ServicePage() {
             <p className="text-white/80 text-sm mb-6">
               Заполнение займет около 5 минут. Понадобится {service.authLevel === 'none' ? 'только ваше имя' : 'ID-карта'}.
             </p>
-            <Button className="w-full bg-white text-navy hover:bg-soft border-0">
+            <Button onClick={() => setIsFormOpen(true)} className="w-full bg-white text-navy hover:bg-soft border-0">
               {ru.service.orderButton}
             </Button>
           </Card>
