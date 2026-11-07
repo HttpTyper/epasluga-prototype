@@ -1,44 +1,43 @@
-import { Button, Card, Badge, Input, Tooltip, Accordion, StatusTracker } from '../../design-system'
+import { Card, Badge, Button } from '../../design-system'
+import { mockServices } from '../../lib/api/mocks/fixtures/services'
+import { ru } from '../../content/ru'
 
 export function HomePage() {
+  const service = mockServices[0] // Берем первую услугу (Справка о доходах)
+
   return (
-    <div className="space-y-8 max-w-3xl">
-      <h1 className="text-3xl font-bold text-navy-deep">Дизайн-система (Тест)</h1>
+    <div className="max-w-2xl space-y-6">
+      <h1 className="text-3xl font-bold text-navy-deep">Тест данных</h1>
       
-      <div className="space-x-4">
-        <Button>Основная кнопка</Button>
-        <Button variant="ghost">Второстепенная</Button>
-      </div>
-
-      <div className="space-x-2">
-        <Badge>Обычный</Badge>
-        <Badge variant="need-id">Нужна ID-карта</Badge>
-        <Badge variant="ecp">ЭЦП</Badge>
-        <Badge variant="code">Код: 3.05.03</Badge>
-      </div>
-
       <Card>
-        <h2 className="text-lg font-bold mb-2 flex items-center gap-2">
-          Заголовок с подсказкой <Tooltip text="Это всплывающая подсказка, которая помогает понять сложный термин.">?</Tooltip>
-        </h2>
-        <p className="text-muted mb-4">Наведите мышку на знак вопроса.</p>
-        <Input placeholder="Введите что-нибудь..." />
+        <div className="flex justify-between items-start mb-2">
+          <h2 className="text-xl font-bold text-navy-deep">{service.title}</h2>
+          <Badge variant="need-id">{ru.service.needId}</Badge>
+        </div>
+        
+        <p className="text-sm text-muted mb-4">{service.officialTitle}</p>
+        <p className="mb-6">{service.description}</p>
+
+        <div className="bg-soft p-4 rounded-control mb-6">
+          <h3 className="font-semibold mb-2">{ru.service.resultTitle}</h3>
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            <div>
+              <span className="text-muted block text-xs">⏱ {ru.service.timeLabel}</span>
+              <strong>{service.timeToComplete}</strong>
+            </div>
+            <div>
+              <span className="text-muted block text-xs">💰 {ru.service.costLabel}</span>
+              <strong>{service.cost}</strong>
+            </div>
+            <div>
+              <span className="text-muted block text-xs">📄 {ru.service.formatLabel}</span>
+              <strong>{service.format}</strong>
+            </div>
+          </div>
+        </div>
+
+        <Button className="w-full">{ru.service.orderButton}</Button>
       </Card>
-
-      <div>
-        <h2 className="text-lg font-bold mb-4">Аккордеон (спойлер)</h2>
-        <Accordion title="Что такое Е-Паслуга?">
-          Это единый портал, где можно получить государственные услуги онлайн.
-        </Accordion>
-        <Accordion title="Как войти в личный кабинет?">
-          Для входа понадобится ID-карта и PIN-код.
-        </Accordion>
-      </div>
-
-      <div>
-        <h2 className="text-lg font-bold mb-12">Статус заявления</h2>
-        <StatusTracker currentStep="processing" />
-      </div>
     </div>
   )
 }
