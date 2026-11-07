@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Input, Button, Card } from '../../design-system'
 import type { Service } from '../../types/service'
+import { SuccessScreen } from './SuccessScreen'
 
 export function ApplicationForm({ service }: { service: Service }) {
   // Состояния полей
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
+  const [isSubmitted, setIsSubmitted] = useState(false)
   
   // Состояния ошибок
   const [errors, setErrors] = useState({ fullName: '', phone: '', email: '' })
@@ -42,11 +44,13 @@ export function ApplicationForm({ service }: { service: Service }) {
     setErrors({ fullName: '', phone: phoneError, email: emailError })
 
     if (!phoneError && !emailError && fullName) {
-      alert('Форма успешно отправлена! (Демо)')
+      setIsSubmitted(true)
       // В реальности здесь был бы редирект на страницу статуса
     }
   }
-
+  if (isSubmitted) {
+    return <SuccessScreen service={service} />
+    }
   return (
     <div className="max-w-2xl mx-auto py-8">
       <div className="text-sm text-muted mb-6">
