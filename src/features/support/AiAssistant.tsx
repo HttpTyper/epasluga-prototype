@@ -50,7 +50,7 @@ export function AiAssistant() {
       <button
         onClick={() => setIsOpen(true)}
         className={clsx(
-          'fixed bottom-6 right-6 w-14 h-14 bg-navy text-white rounded-full shadow-lg flex items-center justify-center hover:bg-navy-deep transition-transform hover:scale-105 z-40',
+          'fixed bottom-28 md:bottom-6 right-4 md:right-6 w-14 h-14 bg-navy text-white rounded-full shadow-lg flex items-center justify-center hover:bg-navy-deep transition-transform hover:scale-105 z-40',
           isOpen && 'hidden',
         )}
         aria-label="Открыть ИИ-помощника"

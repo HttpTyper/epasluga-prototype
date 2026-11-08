@@ -88,9 +88,9 @@ export function ProfilePage() {
           <Card className="border-danger/30 bg-[#fffbfa]">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h3 className="font-bold text-navy-deep mb-1">Блокировка идентификатора</h3>
+                <h3 className="font-bold text-navy-deep mb-1">Блокировка уникального идентификатора (УИ)</h3>
                 <p className="text-sm text-muted">
-                  Временно заблокирует вход и оказание услуг. Разблокировка — только в отделении.
+                  Временно заблокирует вход и оказание услуг. Разблокировка — только в службе "Одно окно".
                 </p>
               </div>
               <Button

@@ -17,7 +17,7 @@ export function MyServicesPage() {
       </header>
 
       <div className="bg-white border border-line rounded-card overflow-x-auto">
-        <table className="w-full text-left text-sm min-w-150">
+        <table className="w-full text-left text-sm responsive-table">
           <thead className="bg-soft text-muted text-xs uppercase tracking-wider">
             <tr>
               <th className="px-4 py-3 font-semibold">Услуга</th>

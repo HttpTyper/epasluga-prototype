@@ -39,3 +39,53 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* Таблица в карточки для мобильных */
+@media (max-width: 640px) {
+  .responsive-table thead {
+    display: none;
+  }
+  .responsive-table, 
+  .responsive-table tbody, 
+  .responsive-table tr, 
+  .responsive-table td {
+    display: block;
+    width: 100%;
+  }
+  .responsive-table tr {
+    border-bottom: 1px solid var(--color-line);
+    padding: 1rem 0;
+  }
+  .responsive-table tr:last-child {
+    border-bottom: 0;
+  }
+  .responsive-table td {
+    border: 0;
+    padding: 0.25rem 1rem !important;
+  }
+}
+
+/* Таблица в карточки для мобильных */
+@media (max-width: 640px) {
+  .responsive-table thead {
+    display: none;
+  }
+  .responsive-table, 
+  .responsive-table tbody, 
+  .responsive-table tr, 
+  .responsive-table td {
+    display: block;
+    width: 100%;
+  }
+  .responsive-table tr {
+    border-bottom: 1px solid var(--color-line);
+    padding: 1rem 0;
+  }
+  .responsive-table tr:last-child {
+    border-bottom: 0;
+  }
+  .responsive-table td {
+    border: 0;
+    padding: 0.25rem 1rem !important;
+  }
+}
