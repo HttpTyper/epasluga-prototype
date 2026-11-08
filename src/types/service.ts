@@ -1,14 +1,63 @@
+export type AuthLevel = 'none' | 'id' | 'ecp'
+
 export interface Service {
   id: string
-  title: string            // Человеческое название (напр. "Справка о доходах")
-  officialTitle: string    // Официальное название с кодом
-  description: string      // Краткое описание
-  category: string         // Категория (напр. "Налоги", "Недвижимость")
-  situation?: string       // Жизненная ситуация (напр. "Покупка авто")
-  authLevel: 'none' | 'id' | 'ecp' // Что нужно для входа
-  timeToComplete: string   // Срок оказания (напр. "3 дня")
-  cost: string             // Стоимость (напр. "Бесплатно")
-  format: string           // Формат результата (напр. "PDF-файл")
-  orgName: string          // Название ведомства
-  orgUnp: string           // УНП ведомства
+  code: string              // «3.05.03» — вторично, мелким шрифтом
+  shortTitle: string        // «Справка о доходах» — главное
+  officialTitle: string     // «Сведения о доходах физического лица...»
+  plainDescription: string  // 1–2 предложения по-человечески
+  official: string          // полное юридическое — в аккордеон
+  category: string          // id категории (ip/law/edu/...)
+  categoryTitle: string     // «Налоги и торговля» — для отображения
+  situations: string[]      // ['tax', 'work', 'housing']
+  authLevel: AuthLevel
+  timeToComplete: string
+  cost: string
+  format: string
+  orgName: string
+  orgUnp: string
+  steps: string[]
+}
+
+export interface Situation {
+  id: string
+  title: string
+  hint: string
+}
+
+export interface Category {
+  id: string
+  title: string
+  desc: string
+  icon: string
+}
+
+export type ApplicationStatus =
+  | 'Черновик'
+  | 'На проверке'
+  | 'Ожидает оплаты'
+  | 'Выполнено'
+  | 'Отозвано'
+  | 'Отказано'
+
+export interface Application {
+  id: string
+  num: string
+  title: string
+  serviceId: string
+  initiator: string
+  status: ApplicationStatus
+  at: string
+  comment: string
+}
+
+export type NotificationKind = 'legal' | 'info'
+
+export interface AppNotification {
+  id: string
+  kind: NotificationKind
+  title: string
+  body: string
+  at: string
+  archived: boolean
 }
