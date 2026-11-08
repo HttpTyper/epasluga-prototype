@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-navy: #2f3bbd;
+  --color-navy-deep: #1e2a8a;
+  --color-ink: #1a1d2b;
+  --color-muted: #5a6078;
+  --color-line: #e2e5f0;
+  --color-bg: #f3f4f8;
+  --color-card: #ffffff;
+  --color-soft: #eef0f8;
+  --color-danger: #b42318;
+  --color-ok: #17663d;
+  --color-accent: #0f766e;
+  --color-accent-warm: #9a6700;
+
+  --font-sans: 'Inter', 'Segoe UI', 'PT Sans', 'Roboto', Arial, sans-serif;
+
+  --radius-card: 16px;
+  --radius-control: 10px;
+
+  --shadow-card: 0 10px 30px rgba(30, 42, 120, 0.07);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Таблица в карточки для мобильных */
+@media (max-width: 640px) {
+  .responsive-table thead {
+    display: none;
+  }
+  .responsive-table, 
+  .responsive-table tbody, 
+  .responsive-table tr, 
+  .responsive-table td {
+    display: block;
+    width: 100%;
+  }
+  .responsive-table tr {
+    border-bottom: 1px solid var(--color-line);
+    padding: 1rem 0;
+  }
+  .responsive-table tr:last-child {
+    border-bottom: 0;
+  }
+  .responsive-table td {
+    border: 0;
+    padding: 0.25rem 1rem !important;
+  }
+}
+
+/* Таблица в карточки для мобильных */
+@media (max-width: 640px) {
+  .responsive-table thead {
+    display: none;
+  }
+  .responsive-table, 
+  .responsive-table tbody, 
+  .responsive-table tr, 
+  .responsive-table td {
+    display: block;
+    width: 100%;
+  }
+  .responsive-table tr {
+    border-bottom: 1px solid var(--color-line);
+    padding: 1rem 0;
+  }
+  .responsive-table tr:last-child {
+    border-bottom: 0;
+  }
+  .responsive-table td {
+    border: 0;
+    padding: 0.25rem 1rem !important;
+  }
+}
