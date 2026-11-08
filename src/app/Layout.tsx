@@ -1,5 +1,6 @@
 import { NavLink, Outlet, Link } from 'react-router-dom'
 import { AiAssistant } from '../features/support/AiAssistant'
+import { Breadcrumbs } from './Breadcrumbs'
 
 const navItems = [
   { to: '/', label: 'Главная', end: true },
@@ -35,7 +36,6 @@ export function Layout() {
         <header className="h-16 bg-white border-b border-line flex items-center justify-between px-7 sticky top-0 z-20">
           <span className="text-muted text-sm"></span>
           
-          {/* Блок профиля в шапке */}
           <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <span className="text-ink font-semibold text-sm">Иван</span>
             <div className="w-8 h-8 bg-navy text-white rounded-full flex items-center justify-center text-xs font-bold">
@@ -44,11 +44,11 @@ export function Layout() {
           </Link>
         </header>
         <main className="flex-1 p-7">
+          <Breadcrumbs />
           <Outlet />
         </main>
       </div>
       
-      {/* Подключаем ИИ-помощника глобально */}
       <AiAssistant />
     </div>
   )
