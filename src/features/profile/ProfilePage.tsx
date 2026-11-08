@@ -1,6 +1,9 @@
-﻿import { Card, Button } from '../../design-system'
+﻿import { useState } from 'react'
+import { Card, Button, Toast } from '../../design-system'
 
 export function ProfilePage() {
+  const [showToast, setShowToast] = useState(false)
+
   return (
     <div className="max-w-3xl mx-auto py-8">
       <h1 className="text-3xl font-bold text-navy-deep mb-8">Личный кабинет</h1>
@@ -37,8 +40,24 @@ export function ProfilePage() {
               <dd className="col-span-2 font-semibold text-ok">Email и Push включены</dd>
             </div>
           </dl>
+
+          {/* Блок для демонстрации Push-уведомления */}
+          <div className="mt-8 pt-6 border-t border-line">
+            <p className="text-sm text-muted mb-3"></p>
+            <Button variant="ghost" onClick={() => setShowToast(true)} className="text-sm">
+              Показать Push-уведомление
+            </Button>
+          </div>
         </Card>
       </div>
+
+      {/* Само всплывающее уведомление */}
+      {showToast && (
+        <Toast 
+          message="Ваша справка о доходах готова! Заберите её в разделе «Мои заявления»." 
+          onClose={() => setShowToast(false)} 
+        />
+      )}
     </div>
   )
 }
