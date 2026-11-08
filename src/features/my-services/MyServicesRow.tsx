@@ -7,10 +7,11 @@ type MyServicesRowProps = {
   app: Application
   href: string | null
   onPay: () => void
+  onDownload: () => void // <-- добавили
   help: string
 }
 
-export function MyServicesRow({ app, href, onPay, help }: MyServicesRowProps) {
+export function MyServicesRow({ app, href, onPay, onDownload, help }: MyServicesRowProps) {
   return (
     <tr>
       <td className="px-4 py-3 align-top">
@@ -24,22 +25,40 @@ export function MyServicesRow({ app, href, onPay, help }: MyServicesRowProps) {
         {app.comment && <div className="text-xs text-danger mt-1 max-w-xs">{app.comment}</div>}
       </td>
       <td className="px-4 py-3 align-top">
-        <div className="flex flex-col gap-1.5 items-end">
+        <div className="flex flex-col gap-2 items-end">
           {app.status === 'Выполнено' && (
-            <button type="button" className="inline-flex items-center justify-center rounded-control px-3 py-1.5 text-sm font-semibold bg-navy text-white hover:bg-navy-deep">
+            <button 
+              type="button" 
+              onClick={onDownload}
+              className="inline-flex items-center justify-center rounded-control px-4 min-h-11 text-sm font-semibold bg-navy text-white hover:bg-navy-deep transition-colors w-full sm:w-auto"
+            >
               Скачать
             </button>
           )}
           {app.status === 'Ожидает оплаты' && (
-            <button type="button" onClick={onPay} className="inline-flex items-center justify-center rounded-control px-3 py-1.5 text-sm font-semibold bg-navy text-white hover:bg-navy-deep">
+            <button 
+              type="button" 
+              onClick={onPay} 
+              className="inline-flex items-center justify-center rounded-control px-4 min-h-11 text-sm font-semibold bg-navy text-white hover:bg-navy-deep transition-colors w-full sm:w-auto"
+            >
               Оплатить
             </button>
           )}
           {href && (app.status === 'Черновик' || app.status === 'На проверке') && (
-            <Link to={href} className="inline-flex items-center justify-center rounded-control px-3 py-1.5 text-sm font-semibold border border-navy text-navy hover:bg-soft">
+            <Link 
+              to={href} 
+              className="inline-flex items-center justify-center rounded-control px-4 min-h-11 text-sm font-semibold border border-navy text-navy hover:bg-soft transition-colors w-full sm:w-auto"
+            >
               Открыть
             </Link>
           )}
+          {/* Кнопка "Статус" для всех заявок */}
+          <Link 
+            to={`/status/${app.id}`} 
+            className="inline-flex items-center justify-center rounded-control px-4 min-h-11 text-sm font-semibold border border-line text-muted hover:text-navy hover:border-navy transition-colors w-full sm:w-auto"
+          >
+            Детали
+          </Link>
         </div>
       </td>
     </tr>

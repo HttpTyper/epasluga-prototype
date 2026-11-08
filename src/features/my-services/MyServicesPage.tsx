@@ -1,6 +1,7 @@
 import { useApplications } from '../../lib/applications'
 import { services } from '../../data/services'
 import { statusHelp } from '../../lib/format'
+import { downloadDemoPdf } from '../../lib/download'
 import { MyServicesRow } from './MyServicesRow'
 
 export function MyServicesPage() {
@@ -15,8 +16,8 @@ export function MyServicesPage() {
         </p>
       </header>
 
-      <div className="bg-white border border-line rounded-card overflow-hidden">
-        <table className="w-full text-left text-sm">
+      <div className="bg-white border border-line rounded-card overflow-x-auto">
+        <table className="w-full text-left text-sm min-w-150">
           <thead className="bg-soft text-muted text-xs uppercase tracking-wider">
             <tr>
               <th className="px-4 py-3 font-semibold">Услуга</th>
@@ -34,6 +35,7 @@ export function MyServicesPage() {
                   app={app}
                   href={svc ? `/service/${svc.id}` : null}
                   onPay={() => update(app.id, { status: 'Выполнено' })}
+                  onDownload={() => downloadDemoPdf(app)}
                   help={statusHelp(app.status)}
                 />
               )
