@@ -1,9 +1,15 @@
 ﻿import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { services } from '../../data/services'
-import { Button, Badge, Card } from '../../design-system'
+import { Button, Badge, Card, Accordion } from '../../design-system'
 import { ru } from '../../content/ru'
 import { ApplicationForm } from './ApplicationForm'
+
+const AUTH_HINT: Record<string, string> = {
+  none: 'Понадобится только ваше имя.',
+  id: 'Понадобится ID-карта и PIN-код.',
+  ecp: 'Понадобится ID-карта и электронная подпись (ЭЦП).',
+}
 
 export function ServicePage() {
   const { id } = useParams()
@@ -22,7 +28,7 @@ export function ServicePage() {
   }
 
   if (isFormOpen) {
-    return <ApplicationForm service={service} />
+    return <ApplicationForm service={service} onBack={() => setIsFormOpen(false)} />
   }
 
   return (
@@ -40,29 +46,30 @@ export function ServicePage() {
         <span className="text-ink">{service.shortTitle}</span>
       </div>
 
-      <div className="flex items-start justify-between gap-6 mb-8">
+      {/* Заголовок + бейджи */}
+      <div className="flex items-start justify-between gap-6 mb-6">
         <div>
           <h1 className="text-3xl font-bold text-navy-deep mb-2">{service.shortTitle}</h1>
-          <p className="text-sm text-muted">{service.officialTitle}</p>
-        </div>
-        <div className="flex gap-2 shrink-0 mt-2 flex-wrap">
-          {service.authLevel === 'id' && <Badge variant="need-id">Требуется ID-карта</Badge>}
-          {service.authLevel === 'ecp' && <Badge variant="ecp">Требуется ЭЦП</Badge>}
-          {service.authLevel === 'none' && <Badge variant="accent">Доступно без ID-карты</Badge>}
-          <Badge variant="code">{service.code}</Badge>
+          <div className="flex flex-wrap gap-1.5 items-center">
+            {service.authLevel === 'id' && <Badge variant="need-id">Нужна ID-карта</Badge>}
+            {service.authLevel === 'ecp' && <Badge variant="ecp">Нужна ЭЦП</Badge>}
+            {service.authLevel === 'none' && <Badge variant="accent">Без ID-карты</Badge>}
+            <Badge variant="code">{service.code}</Badge>
+            <span className="text-sm text-muted">· {service.orgName}</span>
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Левая колонка: Основная информация */}
-        <div className="lg:col-span-2 space-y-8">
+        {/* Левая колонка */}
+        <div className="lg:col-span-2 space-y-6">
           <section>
-            <h2 className="text-lg font-bold text-navy-deep mb-3">Описание</h2>
+            <h2 className="text-lg font-bold text-navy-deep mb-3">Что это</h2>
             <p className="text-ink leading-relaxed">{service.plainDescription}</p>
           </section>
 
-          {/* Блок "Что вы получите" (эвристики #1 и #6) */}
-          <section className="bg-[#f8f9ff] border border-line rounded-card p-6 shadow-sm">
+          {/* «Что вы получите» */}
+          <section className="bg-[#f8f9ff] border border-line rounded-card p-6">
             <h2 className="text-lg font-bold text-navy-deep mb-5">{ru.service.resultTitle}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="flex flex-col gap-1">
@@ -80,7 +87,7 @@ export function ServicePage() {
             </div>
           </section>
 
-          {/* Как это работает (эвристика #10) */}
+          {/* Как это работает */}
           <section>
             <h2 className="text-lg font-bold text-navy-deep mb-3">Как это работает</h2>
             <ol className="bg-white border border-line rounded-card divide-y divide-line">
@@ -94,33 +101,45 @@ export function ServicePage() {
               ))}
             </ol>
           </section>
+
+          {/* Полное официальное название — скрыто в аккордеон (эвристика #2) */}
+          <Accordion title="Официальное название и правовая база">
+            <p className="text-sm text-muted mb-2">
+              <span className="font-semibold text-ink">Код услуги:</span> {service.code}
+            </p>
+            <p className="text-sm text-muted mb-2">
+              <span className="font-semibold text-ink">Полное наименование:</span>{' '}
+              {service.officialTitle}
+            </p>
+            <p className="text-sm text-muted">
+              <span className="font-semibold text-ink">Ведомство:</span> {service.orgName} (УНП{' '}
+              {service.orgUnp})
+            </p>
+          </Accordion>
         </div>
 
-        {/* Правая колонка: Действие и Ведомство */}
-        <div className="space-y-6">
-          <Card className="bg-navy text-white border-0 shadow-lg">
-            <h3 className="text-lg font-bold mb-2 text-white">Готовы оформить?</h3>
-            <p className="text-white/80 text-sm mb-6">
-              Заполнение займёт около 5 минут.{' '}
-              {service.authLevel === 'none'
-                ? 'Понадобится только ваше имя.'
-                : service.authLevel === 'ecp'
-                  ? 'Понадобится ID-карта и ЭЦП.'
-                  : 'Понадобится ID-карта.'}
-            </p>
-            <Button
-              onClick={() => setIsFormOpen(true)}
-              className="w-full bg-white text-navy hover:bg-soft border-0"
-            >
-              {ru.service.orderButton}
-            </Button>
-          </Card>
+        {/* Правая колонка — sticky */}
+        <div className="lg:col-span-1">
+          <div className="lg:sticky lg:top-24 space-y-4">
+            <Card className="bg-navy text-white border-0 shadow-lg">
+              <h3 className="text-lg font-bold mb-2 text-white">Готовы оформить?</h3>
+              <p className="text-white/80 text-sm mb-5">{AUTH_HINT[service.authLevel]}</p>
+              <Button
+                onClick={() => setIsFormOpen(true)}
+                className="w-full bg-white text-navy hover:bg-soft border-0"
+              >
+                {ru.service.orderButton}
+              </Button>
+            </Card>
 
-          <Card>
-            <h3 className="text-sm font-bold text-muted uppercase tracking-wider mb-4">Ведомство</h3>
-            <div className="font-semibold text-navy-deep mb-1">{service.orgName}</div>
-            <div className="text-sm text-muted">УНП: {service.orgUnp}</div>
-          </Card>
+            <Card>
+              <h3 className="text-sm font-bold text-muted uppercase tracking-wider mb-3">
+                Ведомство
+              </h3>
+              <div className="font-semibold text-navy-deep mb-1">{service.orgName}</div>
+              <div className="text-sm text-muted">УНП: {service.orgUnp}</div>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
