@@ -1,12 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './styles/globals.css' // <--- ЭТА СТРОКА ОБЯЗАТЕЛЬНА
+import './styles/globals.css'
 import App from './App'
 
 async function enableMocking() {
   if (import.meta.env.DEV) {
     const { worker } = await import('./lib/api/mocks/browser')
-    await worker.start({ onUnhandledRequest: 'bypass' })
+    // В MSW v3 опции передаются так (или вообще без них)
+    await worker.start()
   }
 }
 

@@ -8,6 +8,8 @@ import { StatusPage } from '../features/status/StatusPage'
 import { SupportPage } from '../features/support/SupportPage'
 import { AboutPage } from '../features/about/AboutPage'
 import { ProfilePage } from '../features/profile/ProfilePage'
+import { MyServicesPage } from '../features/my-services/MyServicesPage'
+import { NotificationsPage } from '../features/notifications/NotificationsPage'
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +24,8 @@ export const router = createBrowserRouter([
       { path: 'support', element: <SupportPage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'profile', element: <ProfilePage /> },
+      { path: 'apps', element: <MyServicesPage /> },
+      { path: 'notifications', element: <NotificationsPage /> },
     ],
   },
 ])

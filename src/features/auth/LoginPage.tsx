@@ -5,7 +5,6 @@ import { Button, Card, Input } from '../../design-system'
 export function LoginPage() {
   // Режимы: 'default' (выбор), 'id-error' (диагностика), 'alt' (по номеру)
   const [mode, setMode] = useState<'default' | 'id-error' | 'alt'>('default')
-  const [pinCode, setPinCode] = useState('')
 
   return (
     <div className="max-w-md mx-auto py-12">

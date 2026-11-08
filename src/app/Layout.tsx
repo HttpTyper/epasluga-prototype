@@ -4,7 +4,8 @@ import { AiAssistant } from '../features/support/AiAssistant'
 const navItems = [
   { to: '/', label: 'Главная', end: true },
   { to: '/catalog', label: 'Каталог услуг' },
-  { to: '/status', label: 'Мои заявления' },
+  { to: '/apps', label: 'Мои услуги' },
+  { to: '/notifications', label: 'Уведомления' },
   { to: '/profile', label: 'Личный кабинет' },
   { to: '/support', label: 'Поддержка' },
   { to: '/about', label: 'О портале' },

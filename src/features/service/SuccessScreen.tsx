@@ -1,140 +1,57 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { services } from '../../data/services'
-import { Button, Badge, Card, Accordion } from '../../design-system'
-import { ru } from '../../content/ru'
-import { ApplicationForm } from './ApplicationForm'
+import { Link } from 'react-router-dom'
+import { Button, Card } from '../../design-system'
+import type { Service } from '../../types/service'
 
-const AUTH_HINT: Record<string, string> = {
-  none: 'Понадобится только ваше имя.',
-  id: 'Понадобится ID-карта и PIN-код.',
-  ecp: 'Понадобится ID-карта и электронная подпись (ЭЦП).',
-}
-
-export function ServicePage() {
-  const { id } = useParams()
-  const service = services.find((s) => s.id === id)
-  const [isFormOpen, setIsFormOpen] = useState(false)
-
-  if (!service) {
-    return (
-      <div className="max-w-3xl mx-auto py-12 text-center">
-        <h1 className="text-2xl font-bold text-navy-deep mb-4">Услуга не найдена</h1>
-        <Link to="/catalog" className="text-navy hover:underline">
-          Вернуться в каталог
-        </Link>
-      </div>
-    )
-  }
-
-  if (isFormOpen) {
-    return <ApplicationForm service={service} onBack={() => setIsFormOpen(false)} />
-  }
+export function SuccessScreen({ service }: { service: Service }) {
+  const [rating, setRating] = useState<number | null>(null)
+  const [isRated, setIsRated] = useState(false)
 
   return (
-    <div className="max-w-4xl mx-auto pb-12">
-      <div className="text-sm text-muted mb-6 flex gap-2 flex-wrap">
-        <Link to="/catalog" className="hover:text-navy">
-          Каталог
-        </Link>
-        <span>/</span>
-        <Link to={`/catalog?cat=${service.category}&view=list`} className="hover:text-navy">
-          {service.categoryTitle}
-        </Link>
-        <span>/</span>
-        <span className="text-ink">{service.shortTitle}</span>
+    <div className="max-w-xl mx-auto py-12 text-center">
+      <div className="w-20 h-20 bg-[#e6f6ec] text-ok rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+        </svg>
       </div>
 
-      <div className="flex items-start justify-between gap-6 mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-navy-deep mb-2">{service.shortTitle}</h1>
-          <div className="flex flex-wrap gap-1.5 items-center">
-            {service.authLevel === 'id' && <Badge variant="need-id">Нужна ID-карта</Badge>}
-            {service.authLevel === 'ecp' && <Badge variant="ecp">Нужна ЭЦП</Badge>}
-            {service.authLevel === 'none' && <Badge variant="accent">Без ID-карты</Badge>}
-            <Badge variant="code">{service.code}</Badge>
-            <span className="text-sm text-muted">· {service.orgName}</span>
-          </div>
-        </div>
+      <h1 className="text-3xl font-bold text-navy-deep mb-4">Заявление принято!</h1>
+      <p className="text-lg text-ink mb-2">Услуга: {service.shortTitle}</p>
+      
+      <p className="text-muted mb-8">
+        Срок оказания: <strong className="text-ink">{service.timeToComplete}</strong>.<br />
+        Мы пришлем уведомление, когда документ будет готов.
+      </p>
+
+      <div className="flex flex-col gap-3 items-center mb-12">
+        <Link to="/apps">
+          <Button className="w-64">Перейти к моим услугам</Button>
+        </Link>
+        <Link to="/" className="text-sm text-navy hover:underline mt-2">
+          Вернуться на главную
+        </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          <section>
-            <h2 className="text-lg font-bold text-navy-deep mb-3">Что это</h2>
-            <p className="text-ink leading-relaxed">{service.plainDescription}</p>
-          </section>
-
-          <section className="bg-[#f8f9ff] border border-line rounded-card p-6">
-            <h2 className="text-lg font-bold text-navy-deep mb-5">{ru.service.resultTitle}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-navy">⏱ {ru.service.timeLabel}</span>
-                <span className="text-lg font-bold text-ink">{service.timeToComplete}</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-navy">💰 {ru.service.costLabel}</span>
-                <span className="text-lg font-bold text-ink">{service.cost}</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-navy">📄 {ru.service.formatLabel}</span>
-                <span className="text-lg font-bold text-ink">{service.format}</span>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-bold text-navy-deep mb-3">Как это работает</h2>
-            <ol className="bg-white border border-line rounded-card divide-y divide-line">
-              {service.steps.map((step, i) => (
-                <li key={i} className="flex gap-3 p-4">
-                  <span className="shrink-0 w-7 h-7 rounded-lg bg-soft text-navy text-xs font-bold flex items-center justify-center">
-                    {i + 1}
-                  </span>
-                  <span className="text-[15px] text-ink">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </section>
-
-          <Accordion title="Официальное название и правовая база">
-            <p className="text-sm text-muted mb-2">
-              <span className="font-semibold text-ink">Код услуги:</span> {service.code}
-            </p>
-            <p className="text-sm text-muted mb-2">
-              <span className="font-semibold text-ink">Полное наименование:</span>{' '}
-              {service.officialTitle}
-            </p>
-            <p className="text-sm text-muted">
-              <span className="font-semibold text-ink">Ведомство:</span> {service.orgName} (УНП{' '}
-              {service.orgUnp})
-            </p>
-          </Accordion>
-        </div>
-
-        <div className="lg:col-span-1">
-          <div className="lg:sticky lg:top-24 space-y-4">
-            <Card className="bg-navy text-white border-0 shadow-lg">
-              <h3 className="text-lg font-bold mb-2 text-white">Готовы оформить?</h3>
-              <p className="text-white/80 text-sm mb-5">{AUTH_HINT[service.authLevel]}</p>
-              <Button
-                onClick={() => setIsFormOpen(true)}
-                className="w-full bg-white text-navy hover:bg-soft border-0"
+      <Card className="bg-soft border-line text-left">
+        <h3 className="font-bold text-navy-deep mb-2 text-center">Насколько легко было получить услугу?</h3>
+        {isRated ? (
+          <p className="text-center text-ok font-semibold">Спасибо за ваш отзыв! Это помогает нам становиться лучше.</p>
+        ) : (
+          <div className="flex justify-center gap-2 mt-4">
+            {[1, 2, 3, 4, 5].map(star => (
+              <button
+                key={star}
+                onClick={() => { setRating(star); setIsRated(true) }}
+                className={`w-10 h-10 rounded-full font-bold transition-colors ${
+                  rating && rating >= star ? 'bg-navy text-white' : 'bg-white text-navy border border-navy hover:bg-soft'
+                }`}
               >
-                {ru.service.orderButton}
-              </Button>
-            </Card>
-
-            <Card>
-              <h3 className="text-sm font-bold text-muted uppercase tracking-wider mb-3">
-                Ведомство
-              </h3>
-              <div className="font-semibold text-navy-deep mb-1">{service.orgName}</div>
-              <div className="text-sm text-muted">УНП: {service.orgUnp}</div>
-            </Card>
+                {star}
+              </button>
+            ))}
           </div>
-        </div>
-      </div>
+        )}
+      </Card>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Button } from '../../design-system'
 import clsx from 'clsx'
 
 export function AiAssistant() {
